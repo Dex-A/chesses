@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Piece Crossbreeder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .piece-container {
+            display: inline-block;
+            margin: 10px;
+        }
+        .piece-container img {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        #new-piece {
+            margin-top: 20px;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Chess Piece Crossbreeder</h1>
+    <p>Select two chess pieces to crossbreed, and the AI will create a new piece!</p>
+
+    <div class="piece-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chess_plt45.svg/800px-Chess_plt45.svg.png" alt="Pawn" id="pawn" onclick="selectPiece('Pawn')">
+        <p>Pawn</p>
+    </div>
+    <div class="piece-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Chess_rlt45.svg/800px-Chess_rlt45.svg.png" alt="Rook" id="rook" onclick="selectPiece('Rook')">
+        <p>Rook</p>
+    </div>
+    <div class="piece-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Chess_klt45.svg/800px-Chess_klt45.svg.png" alt="King" id="king" onclick="selectPiece('King')">
+        <p>King</p>
+    </div>
+    <div class="piece-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Chess_nlt45.svg/800px-Chess_nlt45.svg.png" alt="Knight" id="knight" onclick="selectPiece('Knight')">
+        <p>Knight</p>
+    </div>
+    <div class="piece-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Chess_blt45.svg/800px-Chess_blt45.svg.png" alt="Bishop" id="bishop" onclick="selectPiece('Bishop')">
+        <p>Bishop</p>
+    </div>
+    <div class="piece-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Chess_qlt45.svg/800px-Chess_qlt45.svg.png" alt="Queen" id="queen" onclick="selectPiece('Queen')">
+        <p>Queen</p>
+    </div>
+
+    <div class="result">
+        <p>Selected Pieces: <span id="selectedPieces">None</span></p>
+        <button onclick="crossbreed()">Crossbreed</button>
+    </div>
+
+    <div id="new-piece-container">
+        <img id="new-piece" src="" alt="New Piece">
+        <p id="new-description"></p>
+    </div>
+
+    <script>
+        let selectedPieces = [];
+
+        function selectPiece(pieceName) {
+            if (selectedPieces.length < 2) {
+                selectedPieces.push(pieceName);
+                document.getElementById('selectedPieces').textContent = selectedPieces.join(' and ');
+            } else {
+                alert('You have already selected two pieces!');
+            }
+        }
+
+        function crossbreed() {
+            if (selectedPieces.length < 2) {
+                alert('Please select two pieces to crossbreed.');
+                return;
+            }
+
+            const newPiece = generateNewPiece(selectedPieces[0], selectedPieces[1]);
+
+            document.getElementById('new-piece').src = newPiece.image;
+            document.getElementById('new-description').textContent = newPiece.description;
+
+            selectedPieces = [];
+            document.getElementById('selectedPieces').textContent = 'None';
+        }
+
+        function generateNewPiece(piece1, piece2) {
+            // Simulated AI logic: Combine random characteristics of the two pieces
+            const characteristics = {
+                Pawn: { move: 'forward', ability: 'weak but fast' },
+                Rook: { move: 'straight', ability: 'strong but slow' },
+                Knight: { move: 'L-shaped', ability: 'jumps over others' },
+                Bishop: { move: 'diagonal', ability: 'long-range attacks' },
+                Queen: { move: 'any direction', ability: 'powerful' },
+                King: { move: 'one square', ability: 'vulnerable but important' }
+            };
+
+            const pieceImages = {
+                Pawn: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chess_plt45.svg/800px-Chess_plt45.svg.png',
+                Rook: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Chess_rlt45.svg/800px-Chess_rlt45.svg.png',
+                Knight: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Chess_nlt45.svg/800px-Chess_nlt45.svg.png',
+                Bishop: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Chess_blt45.svg/800px-Chess_blt45.svg.png',
+                Queen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Chess_qlt45.svg/800px-Chess_qlt45.svg.png',
+                King: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Chess_klt45.svg/800px-Chess_klt45.svg.png'
+            };
+
+            const newMove = `${characteristics[piece1].move} combined with ${characteristics[piece2].move}`;
+            const newAbility = `It is ${characteristics[piece1].ability} and ${characteristics[piece2].ability}.`;
+
+            const hybridImage = pieceImages[piece1]; // Placeholder logic to show the first piece's image
+
+            return {
+                description: `The new piece moves ${newMove}. ${newAbility}`,
+                image: hybridImage
+            };
+        }
+    </script>
+
+</body>
+</html>
